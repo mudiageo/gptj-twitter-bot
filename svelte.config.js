@@ -1,18 +1,38 @@
-import adapter from '@sveltejs/adapter-auto';
+﻿import adapter from '@sveltejs/adapter-auto';
 import preprocess from 'svelte-preprocess';
-
+import path from 'path';
+import { Server } from 'socket.io';
+import injectSocketIO from './socket-handler.js';
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
 	// Consult https://github.com/sveltejs/svelte-preprocess
 	// for more information about preprocessors
-	preprocess: preprocess(),
+	preprocess: [
+		preprocess({
+			postcss: true
+		})
+	],
 
 	kit: {
 		adapter: adapter(),
+		vite: {
+			resolve: {
+				alias: {
+					$stores: path.resolve('./src/stores')
+				}
+			},
+			plugins: [
+				{
+					name: 'sveltekit-socket-io­',
+					configureServer(server) {
+						injectSocketIO(server.httpServer);
+					}
+				}
+			]
+		},
 
-		// Override http methods in the Todo forms
-		methodOverride: {
-			allowed: ['PATCH', 'DELETE']
+		files: {
+			serviceWorker: 'src/service-worker'
 		}
 	}
 };

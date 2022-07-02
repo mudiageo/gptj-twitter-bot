@@ -1,10 +1,12 @@
 import { v4 as uuid } from '@lukeed/uuid';
-import type { Handle } from '@sveltejs/kit';
+import type { Handle, GetSession } from '@sveltejs/kit';
 import * as cookie from 'cookie';
 
 export const handle: Handle = async ({ event, resolve }) => {
+	let user;
 	const cookies = cookie.parse(event.request.headers.get('cookie') || '');
 	event.locals.userid = cookies['userid'] || uuid();
+	event.locals.loggedIn = cookies['loggedIn'] || false;
 
 	const response = await resolve(event);
 

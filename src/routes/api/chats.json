@@ -1,0 +1,22 @@
+[
+	{
+		"id": "c5315aa8-3a9b-4a4a-8e5f-a09832387607",
+		"type": "individual",
+		"participants": ["sdf3434t5", "sdf3434t8"]
+	},
+	{
+		"id": "c5315aa8-3a9b-4a4a-8e5f-a09832387608",
+		"type": "individual",
+		"participants": ["sdf3434t8", "sdf3434t7"]
+	},
+	{
+		"id": "c5315aa8-3a9b-4a4a-8e5f-a09832387609",
+		"type": "group",
+		"participants": ["sdf3434t7", "sdf3434t6"]
+	},
+	{
+		"id": "c5315aa8-3a9b-4a4a-8e5f-a09832387610",
+		"type": "individual",
+		"participants": ["sdf3434t5", "sdf3434t6"]
+	}
+]
