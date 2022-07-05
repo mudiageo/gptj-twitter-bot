@@ -4,11 +4,11 @@
 	"scripts": {
 		"dev": "svelte-kit dev -p 443 --https=http://localhost",
 		"devhttp": "svelte-kit dev -p 80",
-		"devhost": "svelte-kit dev --host -p 443 --https=http://localhost",
+		"devhost": "svelte-kit dev --host -p 443 --https=http://192.168.43.135",
 		"devhttphost": "svelte-kit dev --host  -p 80",
 		"build": "svelte-kit build",
 		"package": "svelte-kit package",
-		"preview": "svelte-kit preview --host -p 443 --https=http://localhost",
+		"preview": "svelte-kit preview --host -p 443 --https=http://192.168.43.135",
 		"prepare": "svelte-kit sync",
 		"test": "playwright test",
 		"check": "svelte-check --tsconfig ./tsconfig.json",

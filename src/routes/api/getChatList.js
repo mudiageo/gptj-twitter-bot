@@ -18,6 +18,7 @@ export const get = async (event) => {
 
 					let users = fs.readFileSync('C:/node/messaging-app/src/routes/api/users.json');
 					let myUserData = JSON.parse(users);
+
 					let user = myUserData.find((user) => {
 						if (user.id === id) return user;
 					});

@@ -13,14 +13,14 @@
 	}
 </script>
 
-
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 
 	import ChatList from '$lib/chatlist/ChatList.svelte';
-export let chatList
+	export let chatList;
 </script>
-			<div id="chat-section" class="lg:hidden border-r border-gray-300 lg:col-span-1 ">
-<ChatList chats={chatList} />
+
+<div id="chat-section" class="lg:hidden border-r border-gray-300 lg:col-span-1 ">
+	<ChatList chats={chatList} />
 </div>

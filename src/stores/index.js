@@ -1,4 +1,4 @@
-//import { writable } from 'svelte/stores'
+import { writable } from 'svelte/store';
 import { v4 as uuid } from '@lukeed/uuid';
 
 //const cookies = Cookie()
@@ -116,3 +116,5 @@ export let getAsyncMessages = async (messages) => {
 
 	return messages;
 };
+
+export let chatListStore = writable([0]);

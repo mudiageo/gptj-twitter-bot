@@ -31,6 +31,20 @@
 
 		newMessage = '';
 	};
+	let messageDate;
+	let checkIfNewDate = (date) => {
+		if (messageDate) {
+			if (date.getDate() > messageDate.getDate() && date.getMonth() >= messageDate.getMonth()) {
+				messageDate = date;
+
+				return true;
+			}
+			messageDate = date;
+		} else {
+			messageDate = date;
+			return true;
+		}
+	};
 </script>
 
 <div id="messages-section" class="flex h-screen flex-col lg:col-span-2 lg:block">
@@ -70,20 +84,41 @@
 			<span class="absolute right-0 justify-end p-3"><!--<Icon data={trash} />--></span>
 		</div>
 
-		<div class="relative h-full w-full overflow-y-auto p-6">
+		<div class="relative h-full w-full overflow-y-auto overflow-x-none p-6">
 			<ul class="space-y-2">
 				{#key messages}
 					{#each messages as { id, message, sender, timestamp }}
+						{@const date = new Date(timestamp)}
+						{#if checkIfNewDate(date)}
+							<li class="no-select flex justify-center">
+								<div class="relative max-w-xl px-4 py-2 bg-blue-100 text-gray-900 rounded shadow">
+									{date.toDateString()}
+								</div>
+							</li>
+						{/if}
+
 						{#if sender === user.name}
 							<li class="no-select flex justify-end">
-								<div class="relative max-w-xl rounded px-4 py-2 text-gray-900 shadow">
+								<div class="relative max-w-xl rounded px-4 py-2 bg-gray-500 text-white shadow">
 									<span class="block">{message}</span>
+									<sub class="block relative right-0 top-0 text-sm text-white-200"
+										>{date.toLocaleTimeString(undefined, {
+											hour: '2-digit',
+											minute: '2-digit'
+										})}</sub
+									>
 								</div>
 							</li>
 						{:else}
 							<li class="no-select flex justify-start">
-								<div class="relative max-w-xl px-4 py-2 bg-gray-500 text-white rounded shadow">
+								<div class="relative max-w-xl px-4 py-2 text-gray-900 rounded shadow">
 									<span class="block">{message}</span>
+									<span class="block text-sm"
+										>{date.toLocaleTimeString(undefined, {
+											hour: '2-digit',
+											minute: '2-digit'
+										})}</span
+									>
 								</div>
 							</li>
 						{/if}
@@ -97,8 +132,8 @@
 	</div>
 </div>
 
-<style>
-	.no-select {
+<!--<style>
+/*	.no-select {
 		-webkit-touch-callout: none; /* iOS Safari */
 		-webkit-user-select: none; /* Safari */
 		-khtml-user-select: none; /* Konqueror HTML */
@@ -106,4 +141,6 @@
 		-ms-user-select: none;
 		user-select: none;
 	}
+*/
 </style>
+-->

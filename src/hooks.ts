@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 import { v4 as uuid } from '@lukeed/uuid';
 import type { Handle, GetSession } from '@sveltejs/kit';
 import * as cookie from 'cookie';
@@ -20,6 +22,15 @@ export const handle: Handle = async ({ event, resolve }) => {
 				httpOnly: true
 			})
 		);
+		
+		/*response.headers.set(
+			'set-cookie',
+			cookie.serialize('loggedIn', event.locals.loggedIn, {
+				path: '/',
+				httpOnly: true
+
+			})
+		);*/
 	}
 
 	return response;

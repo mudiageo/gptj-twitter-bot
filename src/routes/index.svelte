@@ -17,7 +17,7 @@
 			<p class="py-6">This is a blazingly fast ðŸ”¥ and super awesome ðŸ¤© messaging app.</p>
 
 			<br />
-			Tap on a chat to start messaging!
+			Tap on a <a sveltekit:prefetch href="/chats">chat</a> to start messaging!
 		</div>
 	</div>
 </div>

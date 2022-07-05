@@ -2,7 +2,7 @@ import fs from 'fs';
 import * as cookie from 'cookie';
 import { v4 as uuid } from '@lukeed/uuid';
 
-import {  createSession, onLogin } from '$stores';
+import { createSession, onLogin } from '$stores';
 const getUsersFromApi = async (userid) => {
 	let users = fs.readFileSync('C:/node/messaging-app/src/routes/api/users.json');
 	let myData = JSON.parse(users);
@@ -14,7 +14,7 @@ const getUsersFromApi = async (userid) => {
 	} else {
 		data = myData;
 	}
-		return data;
+	return data;
 };
 export const getUserByNum = async (num) => {
 	let users = await getUsersFromApi();
@@ -25,36 +25,35 @@ export const getUserByNum = async (num) => {
 	return Promise.resolve(existingUser);
 };
 
-export const registerUser = async (id, num) => {
+export const registerUser = async (id, num, name) => {
 	let user;
 
 	try {
 		let users = await getUsersFromApi();
-		console.log(users);
 		const existingUser = users.find((u) => u.num === num);
 
 		user = {
 			id,
 			num,
-			name: num
+			name
 		};
-		if (!!existingUser) return Promise.reject(new Error('USer already exists'));
+		if (!!existingUser) return Promise.reject(new Error('User already exists'));
 
 		users.push(user);
-		let resPost = await fetch('/api/getUsers', {
-			method: 'POST',
-			body: JSON.stringify(users),
-			headers: { 'content-type': 'application/json' }
-		});
+
+		let usersPush = fs.writeFileSync(
+			'C:/node/messaging-app/src/routes/api/users.json',
+			JSON.stringify(users)
+		);
 	} catch (err) {
 		console.log(err);
 	}
 	return Promise.resolve(user);
 };
 
-export const post = async ({ request }) => {
-	const num = await request.text();
-
+export const post = async ({ request, locals }) => {
+	const dataRaw = await request.text();
+	const {num, name}  = JSON.parse(dataRaw);
 	const user = await getUserByNum(num);
 
 	if (user) {
@@ -65,13 +64,7 @@ export const post = async ({ request }) => {
 		const stringifiedUserData = 'true';
 		return {
 			headers: {
-				'Set-Cookie': cookie.serialize(COOKIE_NAME, stringifiedUserData, {
-					path: '/',
-					httpOnly: true,
-					sameSite: sameSite,
-					secure: secure,
-					maxAge: maxAge
-				}),
+			
 				'Set-Cookie': cookie.serialize('userid', user.id, {
 					path: '/',
 					httpOnly: true,
@@ -85,7 +78,7 @@ export const post = async ({ request }) => {
 		};
 	}
 
-	const newUser = await registerUser(uuid(), num);
+	const newUser = await registerUser(locals.userid, num, name);
 	const COOKIE_NAME = 'loggedIn';
 	const secure = process.env.NODE_ENV === 'production';
 	const maxAge = 10 * 365 * 24 * 60 * 60; // (3600 seconds / hour) * 200 hours
